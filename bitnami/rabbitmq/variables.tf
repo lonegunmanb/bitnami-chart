@@ -76,3 +76,6 @@ variable "limit_cpu" {
   type = string
   default = "500m"
 }
+variable "fullname" {
+  default = "rabbitmq"
+}

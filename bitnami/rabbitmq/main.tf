@@ -20,6 +20,10 @@ resource "helm_release" "rabbitmq" {
   name      = "rabbitmq"
   namespace = var.namespace
   set {
+    name  = "fullnameOverride"
+    value = var.fullname
+  }
+  set {
     name  = "replicas"
     value = var.replicas
   }
@@ -117,4 +121,15 @@ resource "kubernetes_ingress" "rabbitmq_mgr_ui" {
       }
     }
   }
+}
+
+data "null_data_source" "rabbitmq_svc" {
+  depends_on = [helm_release.rabbitmq]
+  inputs = {
+    rabbitmq_svc = "${var.fullname}.${var.namespace}"
+  }
+}
+
+output "rabbitmq_svc" {
+  value = data.null_data_source.rabbitmq_svc.outputs["rabbitmq_svc"]
 }
