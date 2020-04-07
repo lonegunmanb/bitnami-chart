@@ -20,5 +20,6 @@
 .idea/
 *.tmproj
 .terraform/
+.terraform.d/
 *.tf
 *.tfvars

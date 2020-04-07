@@ -202,9 +202,9 @@ spec:
             value: {{ .Values.rabbitmq.clustering.address_type }}
           {{- if (eq "hostname" .Values.rabbitmq.clustering.address_type) }}
           - name: RABBITMQ_NODENAME
-            value: "rabbit@$(MY_POD_NAME).$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.{{ .Values.rabbitmq.clustering.k8s_domain }}"
+            value: "rabbit@$(MY_POD_NAME).$(K8S_SERVICE_NAME)"
           - name: K8S_HOSTNAME_SUFFIX
-            value: ".$(K8S_SERVICE_NAME).$(MY_POD_NAMESPACE).svc.{{ .Values.rabbitmq.clustering.k8s_domain }}"
+            value: ".$(K8S_SERVICE_NAME)"
           {{- else }}
           - name: RABBITMQ_NODENAME
             {{- if .Values.rabbitmq.rabbitmqClusterNodeName }}
@@ -352,28 +352,10 @@ spec:
         {{- if .Values.extraVolumes }}
 {{ toYaml .Values.extraVolumes | indent 8 }}
         {{- end }}
-      {{- if not .Values.persistence.enabled }}
         - name: data
-          emptyDir: {}
-      {{- else if .Values.persistence.existingClaim }}
-        - name: data
-          persistentVolumeClaim:
-          {{- with .Values.persistence.existingClaim }}
-            claimName: {{ tpl . $ }}
-          {{- end }}
-  {{- else }}
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-        labels:
-          app: {{ template "rabbitmq.name" . }}
-          release: "{{ .Release.Name }}"
-          heritage: "{{ .Release.Service }}"
-      spec:
-        accessModes:
-          - {{ .Values.persistence.accessMode | quote }}
-        resources:
-            requests:
-              storage: {{ .Values.persistence.size | quote }}
-        {{ include "rabbitmq.storageClass" . }}
-  {{- end }}
+          flexVolume:
+            driver: "alicloud/disk"
+            fsType: "ext4"
+            options:
+              volumeType: "{{ .Values.global.storageClass}}"
+              volumeSize: "{{ .Values.persistence.size }}"

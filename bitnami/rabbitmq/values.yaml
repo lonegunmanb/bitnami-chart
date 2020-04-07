@@ -104,7 +104,7 @@ rabbitmq:
   onlineSchedulers: 1
 
   ## Plugins to enable
-  plugins: "rabbitmq_management rabbitmq_peer_discovery_k8s"
+  plugins: "rabbitmq_management rabbitmq_peer_discovery_consul"
 
   ## Extra plugins to enable
   ## Use this instead of `plugins` to add new plugins
@@ -130,8 +130,8 @@ rabbitmq:
   ## Do not override unless you know what you are doing. To add more configuration, use `extraConfiguration` of `advancedConfiguration` instead
   configuration: |-
     ## Clustering
-    cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_k8s
-    cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
+    cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_consul
+    cluster_formation.consul.host = consul-default-server.default
     cluster_formation.node_cleanup.interval = 10
     cluster_formation.node_cleanup.only_log_warning = true
     cluster_partition_handling = autoheal
