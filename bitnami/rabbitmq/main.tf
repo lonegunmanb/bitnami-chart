@@ -99,12 +99,6 @@ resource "helm_release" "rabbitmq" {
     name  = "service.managerPort"
     value = var.rabbitmq_manager_ui_port
   }
-  //requests:
-  //  memory: "${request_memory}"
-  //  cpu: "${request_cpu}"
-  //limits:
-  //  memory: "${limits_memory}"
-  //  cpu: "${limits_cpu}"
   values = [
     data.template_file.pod_resource.rendered,
   ]
