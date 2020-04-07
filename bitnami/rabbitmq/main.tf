@@ -123,13 +123,7 @@ resource "kubernetes_ingress" "rabbitmq_mgr_ui" {
   }
 }
 
-data "null_data_source" "rabbitmq_svc" {
-  depends_on = [helm_release.rabbitmq]
-  inputs = {
-    rabbitmq_svc = "${var.fullname}.${var.namespace}"
-  }
-}
-
 output "rabbitmq_svc" {
-  value = data.null_data_source.rabbitmq_svc.outputs["rabbitmq_svc"]
+  depends_on = [helm_release.rabbitmq]
+  value = "${var.fullname}.${var.namespace}"
 }
