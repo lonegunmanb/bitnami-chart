@@ -127,3 +127,13 @@ output "rabbitmq_svc" {
   depends_on = [helm_release.rabbitmq]
   value = "${var.fullname}.${var.namespace}"
 }
+
+output "rabbitmq_port" {
+  depends_on = [helm_release.rabbitmq]
+  value = var.rabbitmq_port
+}
+
+output "rabbitmq_ui_port" {
+  depends_on = [helm_release.rabbitmq]
+  value = var.rabbitmq_manager_ui_port
+}
