@@ -1,7 +1,7 @@
 data template_file extra_config {
   template = file("${path.module}/extra_config")
   vars = {
-    namespace = var.namespace
+    consul_svc = local.consul_svc
   }
 }
 
@@ -19,6 +19,10 @@ resource "helm_release" "rabbitmq" {
   chart     = path.module
   name      = "rabbitmq"
   namespace = var.namespace
+  set {
+    name  = "fullnameOverride"
+    value = var.fullname
+  }
   set {
     name  = "rabbitmq.clustering.k8s_domain"
     value = ""
@@ -125,4 +129,15 @@ resource "kubernetes_ingress" "rabbitmq_mgr_ui" {
       }
     }
   }
+}
+
+data "null_data_source" "rabbitmq_svc" {
+  depends_on = [helm_release.rabbitmq]
+  inputs = {
+    rabbitmq_svc = "${var.fullname}.${var.namespace}"
+  }
+}
+
+output "rabbitmq_svc" {
+  value = data.null_data_source.rabbitmq_svc.outputs["rabbitmq_svc"]
 }

@@ -76,3 +76,13 @@ variable "limit_cpu" {
   type = string
   default = "500m"
 }
+variable "consul_svc" {
+  default = ""
+}
+locals {
+  consul_svc = var.consul_svc == "" ? "consul-${var.namespace}-server.${var.namespace}" : var.consul_svc
+}
+variable "fullname" {
+  type = string
+  default = "rabbitmq"
+}
