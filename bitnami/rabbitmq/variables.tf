@@ -79,3 +79,6 @@ variable "limit_cpu" {
 variable "fullname" {
   default = "rabbitmq"
 }
+variable "consul_svc" {
+  default = ""
+}
