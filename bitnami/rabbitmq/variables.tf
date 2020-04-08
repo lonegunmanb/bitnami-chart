@@ -86,3 +86,7 @@ variable "fullname" {
   type = string
   default = "rabbitmq"
 }
+variable release_name {
+  type    = string
+  default = "rabbitmq"
+}

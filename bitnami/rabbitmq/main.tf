@@ -17,7 +17,7 @@ data "template_file" "pod_resource" {
 
 resource "helm_release" "rabbitmq" {
   chart     = path.module
-  name      = "rabbitmq"
+  name      = var.release_name
   namespace = var.namespace
   set {
     name  = "fullnameOverride"
