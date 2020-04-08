@@ -141,7 +141,7 @@ output "username" {
 }
 
 output "password" {
-  value = var.enable ? (var.root_password == "" ? data.kubernetes_secret.root_password.*.data[0]["mysql-root-password"] : var.root_password) : ""
+  value = var.enable ? (var.root_password == "" && length(data.kubernetes_secret.root_password) > 0 ? data.kubernetes_secret.root_password.*.data[0]["mysql-root-password"] : var.root_password) : ""
 }
 
 output "mysql_svc" {
