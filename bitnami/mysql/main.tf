@@ -136,11 +136,15 @@ data "kubernetes_secret" "root_password" {
 }
 
 output "username" {
-  depends_on = [
-    helm_release.mysql]
+  depends_on = [helm_release.mysql]
   value      = "root"
 }
 
 output "password" {
   value = var.enable ? (var.root_password == "" ? data.kubernetes_secret.root_password.*.data[0]["mysql-root-password"] : var.root_password) : ""
+}
+
+output "mysql_svc" {
+  depends_on = [helm_release.mysql]
+  value = var.enable ? "${var.fullname}.${var.namespace}" : ""
 }
