@@ -144,5 +144,5 @@ output "rabbitmq_port" {
 
 output "rabbitmq_ui_port" {
   depends_on = [helm_release.rabbitmq]
-  value = var.enable ? var.rabbitmq_manager_ui_port : var.enable
+  value = var.enable ? var.rabbitmq_manager_ui_port : ""
 }
