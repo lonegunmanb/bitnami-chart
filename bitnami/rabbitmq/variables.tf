@@ -82,3 +82,7 @@ variable "fullname" {
 variable "consul_svc" {
   default = ""
 }
+variable release_name {
+  type    = string
+  default = "rabbitmq"
+}
