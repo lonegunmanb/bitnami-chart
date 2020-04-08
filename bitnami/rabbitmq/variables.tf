@@ -86,3 +86,7 @@ variable release_name {
   type    = string
   default = "rabbitmq"
 }
+variable "enable" {
+  type = bool
+  default = true
+}

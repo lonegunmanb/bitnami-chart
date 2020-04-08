@@ -16,6 +16,7 @@ data "template_file" "pod_resource" {
 }
 
 resource "helm_release" "rabbitmq" {
+  count = var.enable ? 1 : 0
   chart     = path.module
   name      = var.release_name
   namespace = var.namespace
@@ -101,7 +102,7 @@ resource "helm_release" "rabbitmq" {
 }
 
 resource "kubernetes_ingress" "rabbitmq_mgr_ui" {
-  count      = var.enable_ui ? 1 : 0
+  count      = var.enable && var.enable_ui ? 1 : 0
   depends_on = [helm_release.rabbitmq]
   metadata {
     name      = "rabbitmq-ui-${var.namespace}"
@@ -125,15 +126,15 @@ resource "kubernetes_ingress" "rabbitmq_mgr_ui" {
 
 output "rabbitmq_svc" {
   depends_on = [helm_release.rabbitmq]
-  value = "${var.fullname}.${var.namespace}"
+  value = var.enable ? "${var.fullname}.${var.namespace}" : ""
 }
 
 output "rabbitmq_port" {
   depends_on = [helm_release.rabbitmq]
-  value = var.rabbitmq_port
+  value = var.enable ? var.rabbitmq_port : ""
 }
 
 output "rabbitmq_ui_port" {
   depends_on = [helm_release.rabbitmq]
-  value = var.rabbitmq_manager_ui_port
+  value = var.enable ? var.rabbitmq_manager_ui_port : ""
 }
