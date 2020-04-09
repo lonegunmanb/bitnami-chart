@@ -71,6 +71,11 @@ variable "mysql_image_tag" {
   type = string
   default = "5.7"
 }
+variable "master_config" {
+  type = string
+  default = ""
+}
+
 resource "helm_release" "mysql" {
   count     = var.enable ? 1 : 0
   chart     = path.module
@@ -117,7 +122,8 @@ resource "helm_release" "mysql" {
     value = var.mysql_image_tag
   }
   values    = [
-    data.template_file.master_resource.rendered
+    data.template_file.master_resource.rendered,
+    var.master_config == "" ? "" : format("master:\n  config: |-\n%s", var.master_config)
   ]
   set {
     name  = "master.persistence.enabled"
