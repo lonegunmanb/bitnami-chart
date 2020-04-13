@@ -19,3 +19,8 @@
 .project
 .idea/
 *.tmproj
+*.tf
+*.tfvars
+*.tplt
+.terraform/
+.terraform.d/
