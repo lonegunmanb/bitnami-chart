@@ -1,3 +1,8 @@
+variable "module_depends_on" {
+  type = any
+  default = ""
+}
+
 variable "namespace" {
   type    = string
   default = "default"
