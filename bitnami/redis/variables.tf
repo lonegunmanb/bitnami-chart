@@ -1,3 +1,8 @@
+variable "module_depends_on" {
+  type = any
+  default = ""
+}
+
 variable "enabled" {
   type    = bool
   default = true

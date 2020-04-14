@@ -9,6 +9,7 @@ data "template_file" "resource" {
 }
 
 resource "helm_release" "redis" {
+  depends_on = [var.module_depends_on]
   count = var.enabled ? 1 : 0
   chart = path.module
   name  = var.release_name
