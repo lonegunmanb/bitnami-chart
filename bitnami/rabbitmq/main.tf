@@ -16,6 +16,7 @@ data "template_file" "pod_resource" {
 }
 
 resource "helm_release" "rabbitmq" {
+  depends_on = [var.module_depends_on]
   count = var.enable ? 1 : 0
   chart     = path.module
   name      = var.release_name
