@@ -50,6 +50,10 @@ variable "fullname" {
   type    = string
   default = "mysql"
 }
+variable "module_depends_on" {
+  type = any
+  default = ""
+}
 data "template_file" "master_resource" {
   template = file("${path.module}/master_resource.yaml")
   vars     = {
@@ -77,6 +81,7 @@ variable "master_config" {
 }
 
 resource "helm_release" "mysql" {
+  depends_on = [var.module_depends_on]
   count     = var.enable ? 1 : 0
   chart     = path.module
   name      = var.release_name
