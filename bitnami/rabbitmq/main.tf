@@ -98,7 +98,7 @@ resource "helm_release" "rabbitmq" {
     value = var.rabbitmq_manager_ui_port
   }
   set {
-    name  = var.extra_plugins == "" ? "extraPlugin"/*won't take effect*/ : "extraPlugins"
+    name  = var.extra_plugins == "" ? "extraPlugins"/*won't take effect*/ : "rabbitmq.extraPlugins"
     value = var.extra_plugins
   }
   values = [
