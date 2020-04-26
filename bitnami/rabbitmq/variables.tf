@@ -99,3 +99,7 @@ variable "enable" {
   type = bool
   default = true
 }
+variable "extra_plugins" {
+  type  = string
+  default = ""
+}

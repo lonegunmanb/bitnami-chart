@@ -105,6 +105,10 @@ resource "helm_release" "rabbitmq" {
     name  = "service.managerPort"
     value = var.rabbitmq_manager_ui_port
   }
+  set {
+    name  = var.extra_plugins == "" ? "extraPlugin"/*won't take effect*/ : "extraPlugins"
+    value = var.extra_plugins
+  }
   values = [
     data.template_file.pod_resource.rendered,
   ]
