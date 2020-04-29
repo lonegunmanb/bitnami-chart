@@ -145,9 +145,9 @@ output "rabbitmq_ui_port" {
 }
 
 output "revision" {
-  value = helm_release.rabbitmq.metadata[0].revision
+  value = var.enable && length(helm_release.rabbitmq) > 0 ? helm_release.rabbitmq[0].metadata[0].revision : ""
 }
 
 output "version" {
-  value = helm_release.rabbitmq.metadata[0].version
+  value = var.enable && length(helm_release.rabbitmq) > 0 ? helm_release.rabbitmq[0].metadata[0].version : ""
 }
