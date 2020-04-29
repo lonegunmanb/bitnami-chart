@@ -151,3 +151,11 @@ output "rabbitmq_ui_port" {
   depends_on = [helm_release.rabbitmq]
   value = var.enable ? var.rabbitmq_manager_ui_port : ""
 }
+
+output "revision" {
+  value = helm_release.rabbitmq.metadata[0].revision
+}
+
+output "version" {
+  value = helm_release.rabbitmq.metadata[0].version
+}
